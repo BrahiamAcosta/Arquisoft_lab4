@@ -1,4 +1,6 @@
-FROM ubuntu:latest
-LABEL authors="brahiam"
+FROM openjdk:11-jre-slim
+WORKDIR /app
+COPY target/*.jar app.jar
 
-ENTRYPOINT ["top", "-b"]
+EXPOSE 8089
+ENTRYPOINT ["java", "-jar", "app.jar"]

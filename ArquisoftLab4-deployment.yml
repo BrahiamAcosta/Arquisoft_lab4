@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arquisoftlab4-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+        app: arquisoftlab4
+  template:
+    metadata:
+        labels:
+            app: arquisoftlab4
+    spec:
+      containers:
+        - name: arquisoftlab4-app
+          image: arquisoftlab4-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8089
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/lab4
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: root
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arquisoftlab4-service
+spec:
+  ports:
+    - port: 8089
+      targetPort: 8089
+  selector:
+    app: arquisoftlab4
+  type: LoadBalancer
